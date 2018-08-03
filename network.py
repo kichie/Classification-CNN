@@ -13,13 +13,16 @@ from chainer import Chain
 class VegeCNN(Chain):
     def __init__(self, label_count, train=True):
         super(VegeCNN, self).__init__(
-                conv1 = L.Convolution2D(None, 16, ksize=5, pad=2, nobias=True),
+                conv1 = L.Convolution2D(None, 16, ksize=5, pad=2, nobias=True,),
                 conv2 = L.Convolution2D(None, 16, ksize=5, pad=2, nobias=True),
                 l1=L.Linear(None, label_count, nobias=True)
                 )
         self.train = train
     def __call__(self, x):
-        h = F.max_pooling_2d(F.relu(self.conv1(x)))
-        h1 = F.max_pooling_2d(F.relu(self.conv2(h)))
-        h2 = self.l1(h1)
-        return h2
+        conv1 = self.conv1(x)
+        
+        fc1 = F.relu(conv1)
+        h1 = F.max_pooling_2d(fc1, ksize=2)
+        h2 = F.max_pooling_2d(F.relu(self.conv2(h1)),ksize=2)
+        h3 = self.l1(h2)
+        return h3

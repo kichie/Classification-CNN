@@ -56,7 +56,9 @@ def preprocess_images(path_to_images, path_to_dst_images):
     files = os.listdir(path_to_images)
     for f in files:
         im = Image.open(os.path.join(path_to_images, f))
+        
         im = im.resize((256, 256), Image.LANCZOS)
+        
         im.save(os.path.join(path_to_dst_images, f))
 
 
@@ -69,3 +71,4 @@ if __name__ == '__main__':
 #        extract_zipfile(os.path.join(PATH_TO_GIVEN_DATA, ZIP_FILE_NAME_TEST'.zip'), PATH_TO_MY_DATA)
     image_verification(PATH_TO_TRAIN_IMAGES)
 #    image_verification(PATH_TO_TEST_IMAGES)
+    preprocess_images(PATH_TO_TRAIN_IMAGES,PATH_TO_DST_TRAIN_IMAGES)
